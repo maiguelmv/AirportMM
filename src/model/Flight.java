@@ -55,9 +55,10 @@ public class Flight {
         this.plane.addFlight(this);
     }
     
-    public void addPassenger(Passenger passenger) {
-        this.passengers.add(passenger);
+    public void addPassenger(Passenger p) {
+        passengers.add(p);
     }
+
     
     public String getId() {
         return id;
