@@ -6,6 +6,7 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -127,12 +128,17 @@ public class Flight {
         return departureDate.plusHours(hoursDurationScale).plusHours(hoursDurationArrival).plusMinutes(minutesDurationScale).plusMinutes(minutesDurationArrival);
     }
     
-    public void delay(int hours, int minutes) {
+    public void delayFlight(int hours, int minutes) {
         this.departureDate = this.departureDate.plusHours(hours).plusMinutes(minutes);
     }
     
     public int getNumPassengers() {
         return passengers.size();
     }
+    
+    public List<Passenger> getPassengers() {
+        return passengers;
+    }
+
     
 }

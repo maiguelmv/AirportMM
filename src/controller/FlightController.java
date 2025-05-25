@@ -31,49 +31,72 @@ public class FlightController {
 
 
     public Response registerFlight(Flight flight) {
-        if (flight.getId() == null || flight.getId().isEmpty()) {
-            return new Response(400, "Flight ID cannot be empty", null);
+        
+        if (flight.getId() == null || flight.getId().isEmpty() || flight.getPlane() == null
+                || flight.getDepartureLocation() == null || flight.getArrivalLocation() == null
+                || flight.getDepartureDate() == null) {
+            return new Response(400, "Missing required flight data", null);
         }
+        if (!flight.getId().matches("^[A-Z]{3}\\d{3}$")) {
+            return new Response(400, "Invalid ID: Must be 3 letters + 3 digits (e.g., ABC123)");
+        }
+
+        
         for (Flight existing : flights) {
             if (existing.getId().equals(flight.getId())) {
                 return new Response(400, "Flight ID already exists", null);
             }
         }
-        
-        if (flight.getScaleLocation()!= null ) {
-            if (flight.getHoursDurationScale() < 0 || flight.getMinutesDurationScale()< 0){
-                return new Response(400, "Scale duration must be non negative", null);
+        if (flight.getPlane().getMaxCapacity() <= 0) {
+            return new Response(400, "Plane max capacity must be greater than 0", null);
+        }
+        if (flight.getHoursDurationArrival() <= 0 && flight.getMinutesDurationArrival() <= 0) {
+            return new Response(400, "Arrival duration must be greater than 00:00", null);
+        }
+     
+        if (flight.getScaleLocation() != null) {
+            if (flight.getHoursDurationScale() <= 0 && flight.getMinutesDurationScale() <= 0) {
+                return new Response(400, "Scale duration must be greater than 00:00", null);
             }
         }
-        if (flight.getPlane() == null || flight.getDepartureLocation() == null || flight.getArrivalLocation() == null || flight.getDepartureDate() == null) {
-            return new Response(400, "Missing required flight data", null);
-        }
-        if (flight.getHoursDurationArrival() < 0 || flight.getMinutesDurationArrival() < 0) {
-            return new Response(400, "Arrival duration must be non-negative", null);
-        }
-        if (flight.getPlane().getMaxCapacity()<=0){
-            return new Response (400, "Plane max capacity must be greater than 0", null);
-            
         
-        
-    }
-
         flights.add(new Flight(flight));
         return new Response(200, "Flight registered successfully", flight);
         
     }
-
+    
     public Response addPassengerToFlight(Flight flight, Passenger passenger) {
+        if (flight == null) {
+            return new Response(404, "Flight not found", null);
+        }
+        if (passenger == null) {
+            return new Response(404, "Passenger not found", null);
+        }
+
+        if (flight.getPassengers().size() >= flight.getPlane().getMaxCapacity()) {
+            return new Response(400, "Flight is full", null);
+        }
+
         flight.addPassenger(passenger);
         passenger.addFlight(flight);
-        return new Response(200, "Passenger added to flight", null);
+        return new Response(200, "Passenger added to flight successfully", null);
     }
-
+    
     public Response delayFlight(Flight flight, int hours, int minutes) {
-        flight.delay(hours, minutes);
+        if (flight == null) {
+            return new Response(404, "Flight not found", null);
+        }
+        if (hours < 0 || minutes < 0 || (hours == 0 && minutes == 0)) {
+            return new Response(400, "Delay time must be greater than 00:00", null);
+        }
+
+        flight.delayFlight(hours, minutes);
         return new Response(200, "Flight delayed successfully", null);
     }
 
+
+
+ 
     public List<Flight> getFlights() {
         List<Flight> copyFlight = new ArrayList<>();
         for (Flight flight : flights) {

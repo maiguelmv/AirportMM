@@ -1453,6 +1453,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
         Panel.setEnabledAt(5, false);
         Panel.setEnabledAt(6, false);
+        Panel.setEnabledAt(7, false);
     }//GEN-LAST:event_administratorActionPerformed
 
     private void userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActionPerformed

@@ -1,6 +1,6 @@
 [
     {
-        "id": "MN08701",
+        "id": "MNP8701",
         "planeId": "PL01234",
         "departureLocationId": "NYC",
         "arrivalLocationId": "LAX",
@@ -12,7 +12,7 @@
         "minutesDurationsScale": 0
     },
     {
-        "id": "NA54602",
+        "id": "NAY4602",
         "planeId": "PQ02468",
         "departureLocationId": "LAX",
         "arrivalLocationId": "NYC",
@@ -24,7 +24,7 @@
         "minutesDurationsScale": 0
     },
     {
-        "id": "SA3203",
+        "id": "SAS203",
         "planeId": "FA07403",
         "departureLocationId": "ORD",
         "arrivalLocationId": "LAX",
@@ -36,7 +36,7 @@
         "minutesDurationsScale": 0
     },
     {
-        "id": "VT00012",
+        "id": "VTB0012",
         "planeId": "VM76304",
         "departureLocationId": "DFW",
         "arrivalLocationId": "ORD",
@@ -48,7 +48,7 @@
         "minutesDurationsScale": 10
     },
     {
-        "id": "TB08536",
+        "id": "TBN8536",
         "planeId": "FV97805",
         "departureLocationId": "ATL",
         "arrivalLocationId": "ORD",

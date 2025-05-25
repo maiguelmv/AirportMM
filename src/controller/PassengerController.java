@@ -33,6 +33,19 @@ public class PassengerController {
                 return new Response(400, "ID already exists");
             }
         }
+        
+        if (!p.getFirstname().matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
+            return new Response(400, "Firstname must contain only letters");
+        }
+        if (!p.getLastname().matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
+            return new Response(400, "Lastname must contain only letters");
+        }
+
+        
+        if (!p.getCountry().matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
+            return new Response(400, "Country must contain only letters and spaces");
+        }
+
 
 
         if (p.getFirstname().isEmpty() || p.getLastname().isEmpty() || p.getCountry().isEmpty()) {
@@ -40,7 +53,7 @@ public class PassengerController {
         }
 
 
-        if (p.getBirthDate() == null || p.getBirthDate().getYear() < 1900 || p.getBirthDate().getYear() > LocalDate.now().getYear()) {
+        if (p.getBirthDate() == null || p.getBirthDate().getYear() < 1920 || p.getBirthDate().getYear() > LocalDate.now().getYear()) {
             return new Response(400, "Invalid birthdate");
         }
 
