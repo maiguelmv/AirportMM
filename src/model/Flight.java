@@ -55,6 +55,25 @@ public class Flight {
         this.plane.addFlight(this);
     }
     
+    public Flight(Flight other) {
+    this.id = other.id;
+    this.plane = other.plane;
+    this.departureLocation = other.departureLocation;
+    this.scaleLocation = other.scaleLocation;
+    this.arrivalLocation = other.arrivalLocation;
+    this.departureDate = other.departureDate;
+    this.hoursDurationArrival = other.hoursDurationArrival;
+    this.minutesDurationArrival = other.minutesDurationArrival;
+    this.hoursDurationScale = other.hoursDurationScale;
+    this.minutesDurationScale = other.minutesDurationScale;
+
+    
+    this.passengers = new ArrayList<>();
+    for (Passenger p : other.passengers) {
+        this.passengers.add(new Passenger(p));  
+    }
+}
+
     public void addPassenger(Passenger p) {
         passengers.add(p);
     }

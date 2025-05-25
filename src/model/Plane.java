@@ -28,6 +28,14 @@ public class Plane {
         this.airline = airline;
         this.flights = new ArrayList<>();
     }
+    public Plane(Plane other) {
+    this.id = other.id;
+    this.brand = other.brand;
+    this.model = other.model;
+    this.maxCapacity = other.maxCapacity;
+    this.airline = other.airline;
+    this.flights = new ArrayList<>(other.flights); 
+}
 
     public void addFlight(Flight flight) {
         this.flights.add(flight);
@@ -36,6 +44,7 @@ public class Plane {
     public String getId() {
         return id;
     }
+    
 
     public String getBrand() {
         return brand;

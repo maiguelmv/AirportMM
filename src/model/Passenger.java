@@ -23,6 +23,7 @@ public class Passenger {
     private long phone;
     private String country;
     private ArrayList<Flight> flights;
+    
 
     public Passenger(long id, String firstname, String lastname, LocalDate birthDate, int countryPhoneCode, long phone, String country) {
         this.id = id;
@@ -33,6 +34,19 @@ public class Passenger {
         this.phone = phone;
         this.country = country;
         this.flights = new ArrayList<>();
+        
+    }
+    
+    public Passenger(Passenger other) {
+    this.id = other.id;
+    this.firstname = other.firstname;
+    this.lastname = other.lastname;
+    this.birthDate = other.birthDate;
+    this.countryPhoneCode = other.countryPhoneCode;
+    this.phone = other.phone;
+    this.country = other.country;
+    this.flights = new ArrayList<>(other.flights); 
+    
     }
 
     public void addFlight(Flight flight) {

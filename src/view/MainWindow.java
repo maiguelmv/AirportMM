@@ -36,10 +36,18 @@ public class MainWindow extends javax.swing.JFrame {
     private PassengerController passengerController = new PassengerController();
     private PlaneController planeController = new PlaneController();
     private AirportController airportController = new AirportController();
-    private FlightController flightController = new FlightController();
+    private FlightController flightController = new FlightController(airportController, planeController);
+
 
     public MainWindow() {
         initComponents();
+        
+        airportController.loadAirportsFromJSON("src/data/airports.json");
+        planeController.loadPlanesFromJSON("src/data/planes.json");
+        passengerController.loadPassengersFromJSON("src/data/passengers.json");
+        flightController.loadFlightsFromJSON("src/data/flights.json");
+
+
 
 
         this.setBackground(new Color(0, 0, 0, 0));
@@ -51,6 +59,8 @@ public class MainWindow extends javax.swing.JFrame {
         this.generateMinutes();
         this.blockPanels();
     }
+    
+  
 
 
 
@@ -1468,7 +1478,7 @@ public class MainWindow extends javax.swing.JFrame {
             comboFormBirthMonth.setSelectedIndex(0);
             comboFormBirthDay.setSelectedIndex(0);
 
-            // Si quieres, también actualizas el combo de users
+
             userSelect.addItem("" + id);
         }
 
@@ -1549,7 +1559,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         LocalDateTime departureDate = LocalDateTime.of(year, month, day, hour, minutes);
 
-        // Buscar objetos en los controladores
         Plane plane = null;
         for (Plane p : planeController.getPlanes()) {
             if (planeId.equals(p.getId())) {
@@ -1564,7 +1573,6 @@ public class MainWindow extends javax.swing.JFrame {
             if (a.getAirportId().equals(scaleLocationId)) scale = a;
         }
 
-        // Crear el vuelo
         Flight flight;
         if (scale == null) {
             flight = new Flight(id, plane, departure, arrival, departureDate, hoursDurationsArrival, minutesDurationsArrival);
@@ -1572,16 +1580,15 @@ public class MainWindow extends javax.swing.JFrame {
             flight = new Flight(id, plane, departure, scale, arrival, departureDate, hoursDurationsArrival, minutesDurationsArrival, hoursDurationsScale, minutesDurationsScale);
         }
 
-        // Registrar vuelo con el controlador
+
         Response res = flightController.registerFlight(flight);
         JOptionPane.showMessageDialog(this, res.getMessage());
 
-        // Si todo salió bien, actualizar los combos
+ 
         if (res.getStatusCode() == 200) {
             comboSelectFlightToAdd.addItem(id);
             comboSelectFlightID.addItem(id);
 
-            // Limpiar campos si quieres
             txtFlightID.setText("");
             txtDepartureYear.setText("");
             comboDepartureMonth.setSelectedIndex(0);
@@ -1751,25 +1758,6 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_userSelectActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        System.setProperty("flatlaf.useNativeLibrary", "false");
-
-        try {
-            UIManager.setLookAndFeel(new FlatDarkLaf());
-        } catch (Exception ex) {
-            System.err.println("Failed to initialize LaF");
-        }
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane Panel;

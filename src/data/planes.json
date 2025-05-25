@@ -1,0 +1,38 @@
+[
+    {
+        "id": "P1",
+        "brand": "Boeing",
+        "model": "737 MAX",
+        "maxCapacity": 200,
+        "airline": "Delta Airlines"
+    },
+    {
+        "id": "P2",
+        "brand": "Airbus",
+        "model": "A320",
+        "maxCapacity": 180,
+        "airline": "American Airlines"
+    },
+    {
+        "id": "P3",
+        "brand": "Boeing",
+        "model": "787 Dreamliner",
+        "maxCapacity": 250,
+        "airline": "United Airlines"
+    },
+    {
+        "id": "P4",
+        "brand": "Embraer",
+        "model": "E190",
+        "maxCapacity": 100,
+        "airline": "JetBlue"
+    },
+    {
+        "id": "P5",
+        "brand": "Bombardier",
+        "model": "CRJ900",
+        "maxCapacity": 90,
+        "airline": "Air Canada"
+    }
+]
+

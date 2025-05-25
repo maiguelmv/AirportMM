@@ -1,0 +1,48 @@
+[
+    {
+        "id": 101,
+        "firstname": "John",
+        "lastname": "Doe",
+        "birthYear": 1995,
+        "countryPhoneCode": 1,
+        "phone": 1234567890,
+        "country": "USA"
+    },
+    {
+        "id": 102,
+        "firstname": "Jane",
+        "lastname": "Smith",
+        "birthYear": 2000,
+        "countryPhoneCode": 44,
+        "phone": 9876543210,
+        "country": "UK"
+    },
+    {
+        "id": 103,
+        "firstname": "Carlos",
+        "lastname": "Gomez",
+        "birthYear": 1998,
+        "countryPhoneCode": 57,
+        "phone": 3109876543,
+        "country": "Colombia"
+    },
+    {
+        "id": 104,
+        "firstname": "Emma",
+        "lastname": "Brown",
+        "birthYear": 1987,
+        "countryPhoneCode": 61,
+        "phone": 4567890123,
+        "country": "Australia"
+    },
+    {
+        "id": 105,
+        "firstname": "Lucas",
+        "lastname": "Wang",
+        "birthYear": 1992,
+        "countryPhoneCode": 86,
+        "phone": 13987654321,
+        "country": "China"
+    }
+]
+

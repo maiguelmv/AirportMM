@@ -1,0 +1,62 @@
+[
+    {
+        "id": "F1",
+        "planeId": "P1",
+        "departureLocationId": "A1",
+        "arrivalLocationId": "A2",
+        "scaleLocationId": "A3",
+        "departureDate": "2025-05-26T10:00:00",
+        "hoursDurationsArrival": 5,
+        "minutesDurationsArrival": 30,
+        "hoursDurationsScale": 1,
+        "minutesDurationsScale": 0
+    },
+    {
+        "id": "F2",
+        "planeId": "P2",
+        "departureLocationId": "A2",
+        "arrivalLocationId": "A3",
+        "scaleLocationId": "A1",
+        "departureDate": "2025-05-26T14:00:00",
+        "hoursDurationsArrival": 3,
+        "minutesDurationsArrival": 45,
+        "hoursDurationsScale": 0,
+        "minutesDurationsScale": 0
+    },
+    {
+        "id": "F3",
+        "planeId": "P3",
+        "departureLocationId": "A3",
+        "arrivalLocationId": "A1",
+        "scaleLocationId": "A2",
+        "departureDate": "2025-05-27T08:30:00",
+        "hoursDurationsArrival": 4,
+        "minutesDurationsArrival": 15,
+        "hoursDurationsScale": 0,
+        "minutesDurationsScale": 0
+    },
+    {
+        "id": "F4",
+        "planeId": "P4",
+        "departureLocationId": "A1",
+        "arrivalLocationId": "A3",
+        "scaleLocationId": "A2",
+        "departureDate": "2025-05-28T12:15:00",
+        "hoursDurationsArrival": 6,
+        "minutesDurationsArrival": 20,
+        "hoursDurationsScale": 1,
+        "minutesDurationsScale": 10
+    },
+    {
+        "id": "F5",
+        "planeId": "P5",
+        "departureLocationId": "A2",
+        "arrivalLocationId": "A1",
+        "scaleLocationId": "A3",
+        "departureDate": "2025-05-29T18:45:00",
+        "hoursDurationsArrival": 5,
+        "minutesDurationsArrival": 0,
+        "hoursDurationsScale": 0,
+        "minutesDurationsScale": 0
+    }
+]

@@ -4,10 +4,16 @@
  */
 package controller;
 
+import java.time.LocalDate;
 import util.Response;
 import model.Passenger;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 
 public class PassengerController {
 
@@ -18,7 +24,7 @@ public class PassengerController {
     }
 
     public Response registerPassenger(Passenger p) {
-        // Validar ID: único, >=0, max 15 dígitos
+
         if (p.getId() < 0 || String.valueOf(p.getId()).length() > 15) {
             return new Response(400, "Invalid ID: must be >=0 and max 15 digits");
         }
@@ -29,28 +35,27 @@ public class PassengerController {
             }
         }
 
-        // Validar campos no vacíos
+
         if (p.getFirstname().isEmpty() || p.getLastname().isEmpty() || p.getCountry().isEmpty()) {
             return new Response(400, "Fields cannot be empty");
         }
 
-        // Validar fecha de nacimiento (ya es LocalDate)
-        if (p.getBirthDate() == null) {
+
+        if (p.getBirthDate() == null || p.getBirthDate().getYear() < 1900 || p.getBirthDate().getYear() > LocalDate.now().getYear()) {
             return new Response(400, "Invalid birthdate");
         }
 
-        // Validar teléfono
+
         if (p.getPhone() < 0 || String.valueOf(p.getPhone()).length() > 11) {
             return new Response(400, "Invalid phone number: must be >=0 and max 11 digits");
         }
 
-        // Validar código telefónico
+
         if (p.getCountryPhoneCode() < 0 || String.valueOf(p.getCountryPhoneCode()).length() > 3) {
             return new Response(400, "Invalid phone code: must be >=0 and max 3 digits");
         }
 
-        // Si todo está bien, agregar a la lista
-        passengers.add(p);
+        passengers.add(new Passenger(p));
         return new Response(200, "Passenger registered successfully");
     }
 
@@ -70,6 +75,40 @@ public class PassengerController {
     }
 
     public List<Passenger> getPassengers() {
-        return passengers;
+        List<Passenger> copy = new ArrayList<>();
+        for (Passenger p : passengers) {
+            copy.add(new Passenger(p)); // Usando el constructor copia
+        }
+        return copy;
     }
+    
+    public void loadPassengersFromJSON(String filePath) {
+    try {
+        String content = new String(Files.readAllBytes(Paths.get(filePath)));
+        JSONArray passengersArray = new JSONArray(content);
+
+        for (int i = 0; i < passengersArray.length(); i++) {
+            JSONObject obj = passengersArray.getJSONObject(i);
+
+            long id = obj.getLong("id");
+            String firstname = obj.getString("firstname");
+            String lastname = obj.getString("lastname");
+            int year = obj.getInt("birthYear");
+            int month = obj.getInt("birthMonth");
+            int day = obj.getInt("birthDay");
+            int phoneCode = obj.getInt("countryPhoneCode");
+            long phone = obj.getLong("phone");
+            String country = obj.getString("country");
+
+            LocalDate birthDate = LocalDate.of(year, month, day);
+            Passenger passenger = new Passenger(id, firstname, lastname, birthDate, phoneCode, phone, country);
+            passengers.add(passenger);
+        }
+
+        System.out.println("Passengers loaded from JSON.");
+    } catch (Exception e) {
+        System.out.println("Error loading passengers from JSON: " + e.getMessage());
+    }
+}
+
 }
