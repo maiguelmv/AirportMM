@@ -47,7 +47,27 @@ public class MainWindow extends javax.swing.JFrame {
         passengerController.loadPassengersFromJSON("src/data/passengers.json");
         flightController.loadFlightsFromJSON("src/data/flights.json");
 
+        
 
+        for (Passenger p : passengerController.getPassengers()) {
+            userSelect.addItem(String.valueOf(p.getId()));
+        }
+
+        for (Airport a : airportController.getAirports()) {
+            comboDepartureLocation.addItem(a.getAirportId());
+            comboArrivalLocation.addItem(a.getAirportId());
+            comboScaleLocation.addItem(a.getAirportId());
+        }
+
+        for (Plane plane : planeController.getPlanes()) {
+            comboFlightPlane.addItem(plane.getId());
+        }
+
+
+        for (Flight flight : flightController.getFlights()) {
+            comboSelectFlightToAdd.addItem(flight.getId());
+            comboSelectFlightID.addItem(flight.getId());
+        }
 
 
         this.setBackground(new Color(0, 0, 0, 0));
@@ -60,6 +80,9 @@ public class MainWindow extends javax.swing.JFrame {
         this.blockPanels();
     }
     
+
+    
+
   
 
 

@@ -1,6 +1,6 @@
 [
     {
-        "id": "A1",
+        "id": "NYC",
         "name": "John F. Kennedy International Airport",
         "city": "New York",
         "country": "USA",
@@ -8,11 +8,35 @@
         "longitude": -73.7781
     },
     {
-        "id": "A2",
+        "id": "LAX",
         "name": "Los Angeles International Airport",
         "city": "Los Angeles",
         "country": "USA",
         "latitude": 33.9416,
         "longitude": -118.4085
+    },
+    {
+        "id": "ATL",
+        "name": "Hartsfield–Jackson Atlanta International Airport",
+        "city": "Atlanta",
+        "country": "USA",
+        "latitude": 33.6407,
+        "longitude": -84.4277
+    },
+    {
+        "id": "ORD",
+        "name": "Chicago O'Hare International Airport",
+        "city": "Chicago",
+        "country": "USA",
+        "latitude": 41.9742,
+        "longitude": -87.9073
+    },
+    {
+        "id": "DFW",
+        "name": "Dallas/Fort Worth International Airport",
+        "city": "Dallas",
+        "country": "USA",
+        "latitude": 32.8998,
+        "longitude": -97.0403
     }
 ]

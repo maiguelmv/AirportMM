@@ -4,7 +4,6 @@
  */
 package controller;
 
-import java.time.LocalDate;
 import util.Response;
 import model.Passenger;
 import java.util.ArrayList;
@@ -96,11 +95,12 @@ public class PassengerController {
             int year = obj.getInt("birthYear");
             int month = obj.getInt("birthMonth");
             int day = obj.getInt("birthDay");
+            LocalDate birthDate = LocalDate.of(year, month, day);
             int phoneCode = obj.getInt("countryPhoneCode");
             long phone = obj.getLong("phone");
             String country = obj.getString("country");
 
-            LocalDate birthDate = LocalDate.of(year, month, day);
+
             Passenger passenger = new Passenger(id, firstname, lastname, birthDate, phoneCode, phone, country);
             passengers.add(passenger);
         }
