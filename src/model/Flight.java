@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package airport;
+package model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,9 +16,9 @@ public class Flight {
     private final String id;
     private ArrayList<Passenger> passengers;
     private Plane plane;
-    private Location departureLocation;
-    private Location scaleLocation;
-    private Location arrivalLocation;
+    private Airport departureLocation;
+    private Airport scaleLocation;
+    private Airport arrivalLocation;
     private LocalDateTime departureDate;
     private int hoursDurationArrival;
     private int minutesDurationArrival;
@@ -26,7 +26,7 @@ public class Flight {
     private int minutesDurationScale;
     
 
-    public Flight(String id, Plane plane, Location departureLocation, Location arrivalLocation, LocalDateTime departureDate, int hoursDurationArrival, int minutesDurationArrival) {
+    public Flight(String id, Plane plane, Airport departureLocation, Airport arrivalLocation, LocalDateTime departureDate, int hoursDurationArrival, int minutesDurationArrival) {
         this.id = id;
         this.passengers = new ArrayList<>();
         this.plane = plane;
@@ -39,7 +39,7 @@ public class Flight {
         this.plane.addFlight(this);
     }
 
-    public Flight(String id, Plane plane, Location departureLocation, Location scaleLocation, Location arrivalLocation, LocalDateTime departureDate, int hoursDurationArrival, int minutesDurationArrival, int hoursDurationScale, int minutesDurationScale) {
+    public Flight(String id, Plane plane, Airport departureLocation, Airport scaleLocation, Airport arrivalLocation, LocalDateTime departureDate, int hoursDurationArrival, int minutesDurationArrival, int hoursDurationScale, int minutesDurationScale) {
         this.id = id;
         this.passengers = new ArrayList<>();
         this.plane = plane;
@@ -63,15 +63,15 @@ public class Flight {
         return id;
     }
 
-    public Location getDepartureLocation() {
+    public Airport getDepartureLocation() {
         return departureLocation;
     }
 
-    public Location getScaleLocation() {
+    public Airport getScaleLocation() {
         return scaleLocation;
     }
 
-    public Location getArrivalLocation() {
+    public Airport getArrivalLocation() {
         return arrivalLocation;
     }
 

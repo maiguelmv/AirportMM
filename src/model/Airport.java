@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package airport;
+package model;
 
 /**
  *
  * @author edangulo
  */
-public class Location {
+public class Airport {
     
     private final String airportId;
     private String airportName;
@@ -17,7 +17,7 @@ public class Location {
     private double airportLatitude;
     private double airportLongitude;
 
-    public Location(String airportId, String airportName, String airportCity, String airportCountry, double airportLatitude, double airportLongitude) {
+    public Airport(String airportId, String airportName, String airportCity, String airportCountry, double airportLatitude, double airportLongitude) {
         this.airportId = airportId;
         this.airportName = airportName;
         this.airportCity = airportCity;
