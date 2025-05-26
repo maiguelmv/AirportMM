@@ -21,7 +21,7 @@ public class PlaneController {
         this.planeModel = planeModel;
     }
 
-    public PlaneModel getPlaneModel() {  
+    public PlaneModel getPlaneModel() {
         return planeModel;
     }
 
@@ -46,6 +46,7 @@ public class PlaneController {
         }
 
         planeModel.addPlane(plane);
+        planeModel.notifyObservers(); 
         return new Response(200, "Plane registered successfully", plane);
     }
 
@@ -67,13 +68,25 @@ public class PlaneController {
                 int maxCapacity = obj.getInt("maxCapacity");
                 String airline = obj.getString("airline");
 
-                Plane plane = new Plane(id, brand, model, maxCapacity, airline);
-                planeModel.addPlane(plane);
+
+                boolean exists = false;
+                for (Plane existing : planeModel.getPlanes()) {
+                    if (existing.getId().equals(id)) {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (!exists) {
+                    Plane plane = new Plane(id, brand, model, maxCapacity, airline);
+                    planeModel.addPlane(plane);
+                }
             }
 
-            System.out.println("Planes loaded from JSON.");
+            planeModel.notifyObservers(); 
+            System.out.println("✅ Planes loaded from JSON.");
         } catch (Exception e) {
-            System.out.println("Error loading planes from JSON: " + e.getMessage());
+            System.out.println("❌ Error loading planes from JSON: " + e.getMessage());
         }
     }
 }
