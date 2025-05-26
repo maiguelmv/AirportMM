@@ -50,9 +50,9 @@ public class AirportModel implements Subject {
             }
 
             notifyObservers();
-            System.out.println("✅ Airports loaded from JSON!");
+            System.out.println("Airports loaded from JSON!");
         } catch (Exception e) {
-            System.out.println("❌ Error loading airports: " + e.getMessage());
+            System.out.println(" Error loading airports: " + e.getMessage());
         }
     }
 

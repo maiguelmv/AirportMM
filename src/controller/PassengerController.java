@@ -14,21 +14,19 @@ import org.json.JSONObject;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-
 public class PassengerController {
-    
+
+    private PassengerModel model;
+
     public PassengerController(PassengerModel model) {
         this.model = model;
     }
-
-    private PassengerModel model = new PassengerModel();
 
     public PassengerModel getPassengerModel() {
         return model;
     }
 
     public Response registerPassenger(Passenger p) {
-
         if (p.getId() < 0 || String.valueOf(p.getId()).length() > 15) {
             return new Response(400, "Invalid ID: must be >=0 and max 15 digits");
         }
@@ -102,6 +100,7 @@ public class PassengerController {
                 model.addPassenger(passenger);
             }
 
+            model.notifyObservers();
             System.out.println("Passengers loaded from JSON.");
         } catch (Exception e) {
             System.out.println("Error loading passengers from JSON: " + e.getMessage());

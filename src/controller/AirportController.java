@@ -17,7 +17,6 @@ public class AirportController {
     }
 
     public Response registerAirport(Airport airport) {
-        // Validaciones
         if (airport.getAirportId() == null || airport.getAirportId().isEmpty()) {
             return new Response(400, "Airport ID cannot be empty", null);
         }
@@ -54,8 +53,8 @@ public class AirportController {
             return new Response(400, "Longitude must have a maximum of 4 decimal places", null);
         }
 
-        // Si pasa validaciones, agregamos al modelo
         model.addAirport(airport);
+        model.notifyObservers();
         return new Response(200, "Airport registered successfully", airport);
     }
 
@@ -64,6 +63,11 @@ public class AirportController {
     }
 
     public void loadAirportsFromJSON(String filePath) {
-        model.loadAirportsFromJSON(filePath);
+        try {
+            model.loadAirportsFromJSON(filePath);
+            model.notifyObservers();
+        } catch (Exception e) {
+            System.out.println("❌ Error loading airports: " + e.getMessage());
+        }
     }
 }

@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 
 public class FlightController {
 
-    private FlightModel model;  // 💡 Ya no se inicializa aquí
+    private FlightModel model;
     private AirportController airportController;
     private PlaneController planeController;
 
@@ -29,13 +29,11 @@ public class FlightController {
         this.model = flightModel;
     }
 
-
-    public FlightModel getFlightModel() {  // Getter para el modelo (vista)
+    public FlightModel getFlightModel() {
         return model;
     }
 
     public Response registerFlight(Flight flight) {
-
         if (flight.getId() == null || flight.getId().isEmpty() || flight.getPlane() == null
                 || flight.getDepartureLocation() == null || flight.getArrivalLocation() == null
                 || flight.getDepartureDate() == null) {
@@ -67,6 +65,7 @@ public class FlightController {
         }
 
         model.addFlight(flight);
+        model.notifyObservers();
         return new Response(200, "Flight registered successfully", flight);
     }
 
@@ -151,6 +150,7 @@ public class FlightController {
                 model.addFlight(flight);
             }
 
+            model.notifyObservers();
             System.out.println("Flights loaded from JSON.");
         } catch (Exception e) {
             System.out.println("Error loading flights from JSON: " + e.getMessage());
