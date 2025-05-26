@@ -21,7 +21,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import model.AirportModel;
+import model.FlightModel;
+import model.PassengerModel;
+import model.PlaneModel;
+import util.Observer;
 
 /**
  *
@@ -29,23 +35,35 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MainWindow extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AirportFrame
-     */
+
+
     private int x, y;
-    private PassengerController passengerController = new PassengerController();
-    private PlaneController planeController = new PlaneController();
-    private AirportController airportController = new AirportController();
-    private FlightController flightController = new FlightController(airportController, planeController);
+
+    private PassengerModel passengerModel = new PassengerModel();
+    private PlaneModel planeModel = new PlaneModel();
+    private AirportModel airportModel = new AirportModel();
+    private FlightModel flightModel = new FlightModel();
+
+    private PassengerController passengerController = new PassengerController(passengerModel);
+    private PlaneController planeController = new PlaneController(planeModel);
+    private AirportController airportController = new AirportController(airportModel);
+    private FlightController flightController = new FlightController(airportController, planeController, flightModel);
+
+
 
 
     public MainWindow() {
         initComponents();
         
+        
+
         airportController.loadAirportsFromJSON("src/data/airports.json");
         planeController.loadPlanesFromJSON("src/data/planes.json");
         passengerController.loadPassengersFromJSON("src/data/passengers.json");
         flightController.loadFlightsFromJSON("src/data/flights.json");
+
+
+
 
         
 
@@ -53,7 +71,7 @@ public class MainWindow extends javax.swing.JFrame {
             userSelect.addItem(String.valueOf(p.getId()));
         }
 
-        for (Airport a : airportController.getAirports()) {
+        for (Airport a : airportController.getAirportModel().getAirports()){
             comboDepartureLocation.addItem(a.getAirportId());
             comboArrivalLocation.addItem(a.getAirportId());
             comboScaleLocation.addItem(a.getAirportId());
@@ -1504,7 +1522,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 
             userSelect.addItem("" + id);
-            refreshTables();
+            
         }
 
     } catch (NumberFormatException ex) {
@@ -1534,7 +1552,7 @@ public class MainWindow extends javax.swing.JFrame {
             txtPlaneModel.setText("");
             txtPlaneCapacity.setText("");
             txtPlaneAirline.setText("");
-            refreshTables();
+            
         }
 
     }//GEN-LAST:event_btnRegisterAirplaneActionPerformed
@@ -1563,7 +1581,7 @@ public class MainWindow extends javax.swing.JFrame {
             txtAirportCountry.setText("");
             txtAirportLatitude.setText("");
             txtAirportLongitude.setText("");
-            refreshTables();
+            
         }
 
     }//GEN-LAST:event_btnRegisterAirportActionPerformed
@@ -1594,7 +1612,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         Airport departure = null, arrival = null, scale = null;
-        for (Airport a : airportController.getAirports()) {
+        for (Airport a : airportController.getAirportModel().getAirports()){
             if (a.getAirportId().equals(departureLocationId)) departure = a;
             if (a.getAirportId().equals(arrivalLocationId)) arrival = a;
             if (a.getAirportId().equals(scaleLocationId)) scale = a;
@@ -1627,7 +1645,7 @@ public class MainWindow extends javax.swing.JFrame {
             comboFlightHour2.setSelectedIndex(0);
             comboFlightMinute2.setSelectedIndex(0);
             
-            refreshTables();
+            
         }
 
     }//GEN-LAST:event_btnRegisterFlightActionPerformed
@@ -1670,7 +1688,7 @@ public class MainWindow extends javax.swing.JFrame {
         txtPassengerPhoneCode.setText("");
         txtPassengerPhoneNumber.setText("");
         txtPassengerCountry.setText("");
-        refreshTables();
+        
     }//GEN-LAST:event_btnUpdatePassengerActionPerformed
 
     private void btnAddToFlightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToFlightActionPerformed
@@ -1704,7 +1722,7 @@ public class MainWindow extends javax.swing.JFrame {
         
         txtPassengerIDToAdd.setText("");
         comboSelectFlightToAdd.setSelectedIndex(0);
-        refreshTables();
+        
 
 
     }//GEN-LAST:event_btnAddToFlightActionPerformed
@@ -1732,7 +1750,7 @@ public class MainWindow extends javax.swing.JFrame {
         comboDelayHours.setSelectedIndex(0);
         comboDelayMinutes.setSelectedIndex(0);
         comboSelectFlightID.setSelectedIndex(0);
-        refreshTables();
+        
 
 
 
@@ -1827,10 +1845,11 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tableAirports.getModel();
         model.setRowCount(0);
-        List<Airport> airports = new ArrayList<>(airportController.getAirports());
+        List<Airport> airports = new ArrayList<>(airportController.getAirportModel().getAirports());
+
         airports.sort(Comparator.comparing(Airport::getAirportId));
         
-        for (Airport location : airportController.getAirports()) {
+        for (Airport location : airportController.getAirportModel().getAirports()){
             model.addRow(new Object[]{location.getAirportId(), location.getAirportName(), location.getAirportCity(), location.getAirportCountry()});
         }
     }//GEN-LAST:event_btnShowAirportsActionPerformed
@@ -1995,12 +2014,116 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButton user;
     private javax.swing.JComboBox<String> userSelect;
     // End of variables declaration//GEN-END:variables
-    public void refreshTables() {
-    btnShowPassengersActionPerformed(null);
-    btnShowFlightsActionPerformed(null);
-    btnShowPlanesActionPerformed(null);
-    btnShowAirportsActionPerformed(null);
-}
+
+    public class PassengerTableView implements Observer {
+
+        private JTable table;
+        private PassengerModel model;
+
+        public PassengerTableView(JTable table, PassengerModel model) {
+            this.table = table;
+            this.model = model;
+            model.addObserver(this);
+        }
+
+        @Override
+        public void update() {
+            refreshTable();
+        }
+
+        public void refreshTable() {
+            
+        }
+    }
+    
+    public class AirportTableView implements Observer {
+
+        private JTable table;
+        private AirportModel model;
+
+        public AirportTableView(JTable table, AirportModel model) {
+            this.table = table;
+            this.model = model;
+            model.addObserver(this);
+        }
+
+        @Override
+        public void update() {
+            refreshTable();
+        }
+
+        public void refreshTable() {
+            javax.swing.table.DefaultTableModel tableModel = (javax.swing.table.DefaultTableModel) table.getModel();
+            tableModel.setRowCount(0);
+            for (Airport a : model.getAirports()) {
+                tableModel.addRow(new Object[]{a.getAirportId(), a.getAirportName(), a.getAirportCity(), a.getAirportCountry()});
+            }
+        }
+    }
+    
+    public class PlaneTableView implements Observer {
+
+        private JTable table;
+        private PlaneModel model;
+
+        public PlaneTableView(JTable table, PlaneModel model) {
+            this.table = table;
+            this.model = model;
+            model.addObserver(this);
+        }
+
+        @Override
+        public void update() {
+            refreshTable();
+        }
+
+        public void refreshTable() {
+            javax.swing.table.DefaultTableModel tableModel = (javax.swing.table.DefaultTableModel) table.getModel();
+            tableModel.setRowCount(0);
+            for (Plane p : model.getPlanes()) {
+                tableModel.addRow(new Object[]{p.getId(), p.getBrand(), p.getModel(), p.getMaxCapacity(), p.getAirline(), p.getNumFlights()});
+            }
+        }
+    }
+    
+    public class FlightTableView implements Observer {
+
+        private JTable table;
+        private FlightModel model;
+
+        public FlightTableView(JTable table, FlightModel model) {
+            this.table = table;
+            this.model = model;
+            model.addObserver(this);
+        }
+
+        @Override
+        public void update() {
+            refreshTable();
+        }
+
+        public void refreshTable() {
+            javax.swing.table.DefaultTableModel tableModel = (javax.swing.table.DefaultTableModel) table.getModel();
+            tableModel.setRowCount(0);
+            for (Flight f : model.getFlights()) {
+                tableModel.addRow(new Object[]{
+                    f.getId(),
+                    f.getDepartureLocation().getAirportId(),
+                    f.getArrivalLocation().getAirportId(),
+                    (f.getScaleLocation() == null ? "-" : f.getScaleLocation().getAirportId()),
+                    f.getDepartureDate(),
+                    f.calculateArrivalDate(),
+                    f.getPlane().getId(),
+                    f.getNumPassengers()
+                });
+            }
+        }
+    }
+
+
 
 
 }
+
+
+
