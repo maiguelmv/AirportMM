@@ -22,9 +22,8 @@ public class PlaneController {
         if (plane.getId() == null || plane.getId().isEmpty()) {
             return new Response(400,"Plane ID cannot be empty", null);
         }
-        
-        if (!plane.getId().matches("^[A-Z]{2}\\d{5}$")) {
-            return new Response(400, "Invalid ID: Must be 2 letters + 5 digits (e.g., AB12345)");
+        if (!plane.getId().matches("^[A-Z]{2}[0-9]{5}$")) {
+            return new Response(400, "Invalid Plane ID format: must be 2 uppercase letters + 5 digits (e.g., AB12345)", null);
         }
 
         if (plane.getMaxCapacity() <= 0) {

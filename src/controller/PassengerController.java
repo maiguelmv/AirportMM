@@ -87,12 +87,8 @@ public class PassengerController {
     }
 
     public List<Passenger> getPassengers() {
-        List<Passenger> copy = new ArrayList<>();
-        for (Passenger p : passengers) {
-            copy.add(new Passenger(p)); // Usando el constructor copia
+        return passengers;
         }
-        return copy;
-    }
     
     public void loadPassengersFromJSON(String filePath) {
     try {

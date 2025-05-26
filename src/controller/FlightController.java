@@ -37,10 +37,9 @@ public class FlightController {
                 || flight.getDepartureDate() == null) {
             return new Response(400, "Missing required flight data", null);
         }
-        if (!flight.getId().matches("^[A-Z]{3}\\d{3}$")) {
-            return new Response(400, "Invalid ID: Must be 3 letters + 3 digits (e.g., ABC123)");
+        if (!flight.getId().matches("^[A-Z]{3}[0-9]{3}$")) {
+            return new Response(400, "Invalid Flight ID format: must be 3 uppercase letters + 3 digits (e.g., BOG123)", null);
         }
-
         
         for (Flight existing : flights) {
             if (existing.getId().equals(flight.getId())) {
@@ -98,12 +97,9 @@ public class FlightController {
 
  
     public List<Flight> getFlights() {
-        List<Flight> copyFlight = new ArrayList<>();
-        for (Flight flight : flights) {
-            copyFlight.add(new Flight(flight)); // Usando el constructor copia
-        }
-        return copyFlight;
-    }
+    return flights;
+}
+
     
     public void loadFlightsFromJSON(String filePath) {
     try {
